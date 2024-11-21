@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>entrarADM</title>
+    <link rel='stylesheet' type='text/css' href="{% static 'css/entrarDOC.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <img src="{% static 'images/logopreta.png' %}" class="logo teste1">
+        <h1>Bem-vindo de volta!</h1>
+
+       <!-- Formulário de Login -->
+<form method="post" class="form-group">
+    {% csrf_token %}
+    <input type="email" name="emaildoc" id="emaildoc" class="form-control" placeholder="Email" required>
+    <input type="password" name="senhadoc" id="senhadoc" class="form-control" placeholder="Senha" required>
+    <button type="submit" id="btn">Login</button>
+</form>
+
+        <p style="font-family: 'Roboto Light'">Caso seja um novo usuário, <a style="color: #BA1818" href="{% url 'cadastro_docente' %}">Cadastre-se</a>.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

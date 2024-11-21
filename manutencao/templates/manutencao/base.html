@@ -1,0 +1,43 @@
+<html>
+<head>
+{% load static %}
+
+    <style>
+
+    /* Reset de margens e paddings */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+</style>
+</head>
+<body>
+
+    <header class="text-white p-4" style="background-color: #BA1818; padding: 1% 1%; height: 15vh; display: flex; align-items: center; justify-content: space-between; position: fixed; width: 100%; top: 0; z-index: 1000;">
+        <div class="d-flex justify-content-start align-items-center position-relative" style="display: flex; align-items: center; width: 100%;">
+            <a href="{% url 'calendariodoc' %}"><img id="seta-voltar-link" src="{% static 'images/setavoltar.png' %}" alt="Seta Voltar" style="width: 3vw; height: 3vw; margin-top: 1%;"></a>
+            <img id="logo" src="{% static 'images/logo3.png' %}" alt="Logo FixEasy" class="ms-3" style="width: 12%; margin-left: 2%; margin-top: -1%;">
+            <nav class="ms-auto" style="margin-left: auto;">
+                <ul class="list-unstyled mb-0" style="list-style: none; margin: 0; padding: 0; display: flex;">
+                    <li class="me-3" style="margin-left: 6vw;"><a class="text-white menu-link" href="{% url 'cadastro_manutencao' %}" style="text-decoration: none; color: #fff; font-weight: 500; font-size: 1.5vw; padding: 1vh 2vw; transition: color 0.3s ease; font-family: 'Montserrat', sans-serif;">Cadastro de Manutenção</a></li>
+                    <li><a class="text-white menu-link" href="{% url 'status_maquina' %}" style="text-decoration: none; color: #fff; font-weight: 500; font-size: 1.5vw; padding: 1vh 2vw; transition: color 0.3s ease; font-family: 'Montserrat', sans-serif;">Status das Máquinas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+
+   {% block content %}
+
+
+   {% endblock %}
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+body {
+    font-family: sans-serif;
+    background-image: url("../images/oficina1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+}
+
+.container {
+    display: flex; /* Habilita o uso de Flexbox */
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    max-width: 50%;
+    margin: 10% auto;
+    padding: 8.9%;
+    background-color: #b6adad;
+    border-radius: 10vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 80%;
+}
+
+p {
+    font-size: 150%;
+}
+
+h1{
+    font-weight: bold;
+    font-size: 20vh;
+    font-family: sans-serif;
+}
+.teste1 {
+    margin-top: -10%;
+    max-height: 20vh; /* Ajuste a altura conforme necessário */
+    height: auto; /* Mantém a proporção */
+}
+
+#nome {
+    border-radius: 20%;
+    margin-bottom: 10%;
+    margin-top: 5%;
+    padding: 3vh 15vh;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra nos inputs */;
+}

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+{% extends 'manutencao/base3.html' %}
+    {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="left-side">
+                <div class="calender">
+                    <div class="header">
+                        <button id="prevBtn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="monthYear" id="monthYear"></div>
+                        <button id="nextBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="days">
+                        <div class="day">Seg</div>
+                        <div class="day">Ter</div>
+                        <div class="day">Qua</div>
+                        <div class="day">Qui</div>
+                        <div class="day">Sex</div>
+                        <div class="day">Sáb</div>
+                        <div class="day">Dom</div>
+                    </div>
+                    <div class="dates" id="dates"></div>
+                </div>
+            </div>
+            <div class="right-side">
+                <a href="{% url 'manualwebadm' %}"><button id="btn1">Manual do Sistema Web</button></a>
+                <a href="{% url 'manual_maquina' %}"><button id="btn2">Manual das Máquinas</button></a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const monthYear = document.getElementById('monthYear');
+        const dates = document.getElementById('dates');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let date = new Date();
+
+        // Função para buscar eventos do servidor
+        function fetchEvents() {
+            fetch('/obter_eventos/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Eventos recebidos:", data); // Adicionado para depuração
+                    window.events = data; // Armazena os eventos no escopo global
+                    renderCalendar(); // Renderiza o calendário após carregar os eventos
+                })
+                .catch(error => console.error('Erro ao buscar eventos:', error));
+        }
+
+        // Função para renderizar o calendário
+        function renderCalendar() {
+            dates.innerHTML = '';
+            monthYear.innerText = date.toLocaleString('pt-BR', {month: 'long', year: 'numeric'});
+
+            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+            const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+            // Dias vazios antes do primeiro dia do mês
+            const startDay = firstDayOfMonth.getDay() || 7;
+            for (let i = 1; i < startDay; i++) {
+                const blankDay = document.createElement('div');
+                blankDay.classList.add('date', 'inactive');
+                dates.appendChild(blankDay);
+            }
+
+            // Gera os dias do mês
+            for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date');
+                dateDiv.innerText = day;
+
+                const eventsForDate = getEventsForDate(new Date(date.getFullYear(), date.getMonth(), day));
+                console.log(`Eventos para o dia ${day}:`, eventsForDate); // Adicionado para depuração
+
+                if (eventsForDate.length > 0) {
+                    dateDiv.classList.add('active');
+                    dateDiv.title = eventsForDate.join(', ');
+
+                    dateDiv.addEventListener('click', () => {
+                        displayEventDetails(eventsForDate);
+                    });
+                }
+                dates.appendChild(dateDiv);
+            }
+        }
+
+        // Função para exibir o container com os detalhes do evento
+        function displayEventDetails(events) {
+            const eventDetailsContainer = document.createElement('div');
+            eventDetailsContainer.classList.add('event-details-container');
+            eventDetailsContainer.style.backgroundColor = '#fff';
+            eventDetailsContainer.style.border = '2px solid red';
+            eventDetailsContainer.style.padding = '20px';
+            eventDetailsContainer.innerHTML = `<h3>Detalhes da Manutenção</h3><p>${events.join('<br>')}</p>`;
+
+            document.body.appendChild(eventDetailsContainer);
+
+            document.addEventListener('click', (e) => {
+                if (!eventDetailsContainer.contains(e.target)) {
+                    eventDetailsContainer.remove();
+                }
+            });
+        }
+
+        // Função para pegar eventos por data
+        function getEventsForDate(date) {
+            if (!window.events) return [];
+            const formattedDate = date.toISOString().split('T')[0];
+            return window.events[formattedDate] || [];
+        }
+
+        // Navegação entre meses
+        prevBtn.addEventListener('click', () => {
+            date.setMonth(date.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            date.setMonth(date.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Inicializa o calendário e busca eventos
+        window.onload = function() {
+            renderCalendar(); // Renderiza o calendário inicialmente
+            fetchEvents(); // Busca eventos
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../../static/images/TelaDeFundo (2).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin-left: 5%;
+            display: flex;
+            margin-top: 15%;
+        }
+
+        .left-side {
+            width: 90%;
+            padding: 20px;
+        }
+
+        .right-side {
+            width: 90%;
+            padding: 50px;
+        }
+
+        .calender {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .monthYear {
+            text-align: center;
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .header button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-top: 20px;
+        }
+
+        .day {
+            text-align: center;
+            padding: 10px;
+            color: #999FA6;
+        }
+
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .date {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            margin: auto;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            transition: 0.2s;
+        }
+
+        .date:hover,
+        .date.active {
+            background: #BA1818 !important;
+            color: white !important;
+        }
+
+        .date.inactive {
+            color: #d2d2d2 !important;
+        }
+
+        .event-details-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid red;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #btn1, #btn2{
+            background-color: #BA1818;
+            border-radius: 100px;
+            margin-top: 1%;
+            padding: 3vh 18vh;
+            margin-left: 25%;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: large;
+        }
+
+        #btn2 {
+            padding: 3vh 18vh;
+            margin-top: 20%;
+        }
+
+        #btn3 {
+            padding: 3vh 21vh;
+            margin-top: 13%;
+        }
+    </style>
+{% endblock %}
+</body>
+</html>

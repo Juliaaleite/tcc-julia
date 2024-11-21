@@ -1,0 +1,157 @@
+#logo {
+    width: 10%;
+    margin-left: 1%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav li {
+    margin-right: 2%;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 2vh; /* ~20px */
+    letter-spacing: 0.05rem;
+    padding: 0.5vh 1vh; /* ~0.25rem 0.75rem */
+    transition: color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+nav a:hover {
+    color: #ccc;
+}
+
+nav {
+    margin-left: 70%;
+    margin-top: -2vh; /* ~-4% */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../img/TelaDeFundo (2).png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    width: 100%;
+    max-width: 90%; /* ~1800px */
+    margin-left: 5%;
+    display: flex;
+    margin-top: 10vh; /* ~100px */
+}
+
+.left-side {
+    width: 90%;
+    padding: 2vh; /* ~20px */
+}
+
+.right-side {
+    width: 90%;
+    padding: 5vh; /* ~50px */
+}
+
+.calender {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 1vh; /* ~10px */
+    box-shadow: 0 0 0.5vh rgba(0,0,0,0.1); /* ~10px */
+    padding: 2vh; /* ~20px */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh; /* ~10px */
+}
+
+.monthYear {
+    text-align: center;
+    font-weight: 600;
+    width: 30%; /* Ajustado para manter o centro */
+}
+
+.header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    width: 4vh; /* ~40px */
+    height: 4vh; /* ~40px */
+    box-shadow: 0 0 0.2vh rgba(0,0,0,0.2); /* ~4px */
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin-top: 2vh; /* ~20px */
+}
+
+.day {
+    text-align: center;
+    padding: 2vh; /* ~10px */
+    color: #999FA6;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 2vh; /* ~10px */
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2vh; /* ~10px */
+    margin: auto;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 5vh; /* ~40px */
+    height: 5vh; /* ~40px */
+    transition: 0.2s;
+}
+
+.date:hover,
+.date.active {
+    background: #BA1818;
+    color: white;
+}
+
+.date.inactive {
+    color:#d2d2d2;
+}
+
+.date.inactive:hover {
+    color: white;
+}
+
+#btn1, #btn2, #btn3 {
+    background-color: #BA1818;
+    border-radius: 100px;
+    padding: 3vh 10%; /* Ajuste proporcional */
+    margin-left: 25%;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2vh; /* ~large */
+    margin-bottom: 5vh; /* ~15% */
+}

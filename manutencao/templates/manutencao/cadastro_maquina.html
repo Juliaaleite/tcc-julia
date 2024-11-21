@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+      {% load static %}
+    <meta charset="UTF-8">
+    <title>Cadastro de Máquinas</title>
+    <link rel='stylesheet' type='text/css' href="{% static 'css/cadastroMAQ.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <section class="container">
+      <div class="alinhamento-central">
+        <a href="{% url 'calendarioadm' %}"> <img src="{% static 'images/setapreta.png' %}" alt="Voltar" style="width: 5vh; height: auto; margin-right: 100vh; margin-top: -10vh;"> </a>
+        &nbsp<img src="{% static 'images/logopreta.png' %}" class="teste1">
+          <form method="POST" enctype="multipart/form-data" action="{% url 'cadastro_maquina' %}">
+              {% csrf_token %}
+              <input class="nome" type="text" name="nomemaq" placeholder="Nome da Máquina:" required>
+              <input class="categoria" type="text" name="catmaq" placeholder="Categoria da Máquina:" required>
+              <input class="codigo" type="text" name="codidentmaq" placeholder="Código de Identificação:" required>
+              <p>Adicione o Manual da Máquina:</p>
+              <input class="manual" type="file" name="manual" required>
+              <p>Adicione a Imagem da Máquina:</p>
+              <input class="image" type="file" name="image" required>
+              <button class="botao-entrar" type="submit">Salvar</button>
+          </form>
+      </div>
+    </section>
+
+  </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>

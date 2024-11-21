@@ -1,0 +1,70 @@
+body {
+    font-family: sans-serif;
+    background-image: url("../images/fundo2.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 50%;
+    padding: 6%;
+    background-color: #b6adad;
+    border-radius: 10vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
+    margin-top: 5vh;
+}
+
+.teste1 {
+    position: relative;
+    top:-10vh;
+    left: 22vw;
+    width: 13vw;
+    height: auto;
+    z-index: 1000;
+}
+
+.nome, .categoria, .codigo {
+    border-radius: 5vh;
+    margin-bottom: 5%; /* Ajustado para evitar sobreposição */
+    margin-top: -10%;
+    margin-left: 18vh;
+    padding: 2vh 15vw;
+    box-shadow: 0 2px 5px rgb(30, 11, 11);
+    border: none;
+}
+
+.manual, .image {
+    border-radius: 5vh;
+    margin-bottom: 5%; /* Ajustado para evitar sobreposição */
+    margin-top: -0.8%;
+    margin-left: 18vh;
+    padding: 1.7vh 11vw;
+    box-shadow: 0 2px 5px rgb(30, 11, 11);
+    background-color: white;
+}
+
+p {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 19vh;
+     font-weight: bold;
+}
+
+.botao-entrar {
+    background-color: #BA1818;
+    border-radius: 5vh;
+    padding: 2vh 5vw;
+    color: white;
+    margin-left: 21vw;
+    border-color: #BA1818;
+}
+
+.botao-entrar:hover {
+    background-color: #680505;
+}

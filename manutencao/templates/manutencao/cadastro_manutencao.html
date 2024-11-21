@@ -1,0 +1,165 @@
+{% extends 'manutencao/base.html' %}
+{% block content %}
+    {% load static %}
+<style>
+    /* Estilo do corpo */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('{% static "images/fundo mais escuro.png" %}');
+        background-size: cover;
+        background-color: #656565;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        padding-top: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Estilo da seção do formulário */
+    .form-container {
+        background-color: rgba(172, 170, 170, 0.83);
+        padding: 4rem;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centraliza o conteúdo dentro do container */
+        text-align: center;
+        margin-left: 5vh;
+        opacity: 85%;
+    }
+
+    /* Estilo dos selects e inputs */
+    .select {
+        margin-bottom: 2rem; /* Espaço entre os selects */
+        position: relative;
+        width: 100%; /* Garante que o select ocupe toda a largura do contêiner */
+    }
+
+    select, input[type="text"], .calendar-button, .periodo {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.2rem;
+        background: #969595;
+        border-radius: 50px;
+        border: 2px solid #ffffff;
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+        appearance: none;
+        align-items: center;
+        background-color: white;
+        margin-bottom: 1rem;
+
+    }
+
+
+    #tipomanu{
+        margin-top: 1vh;
+        margin-bottom: -2vh;
+    }
+
+
+    #criticidade {
+        margin-top: 0vh;
+        margin-bottom: -2vh;
+    }
+
+
+
+    option {
+        text-align: center;
+    }
+
+    #btn {
+        background-color: #BA1818;
+        border-radius: 50px;
+        padding: 1rem 4rem;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 2vh; /* Espaço acima do botão */
+    }
+
+    #btn:hover {
+        background-color: #a11515;
+    }
+    .error-message {
+            color: red;
+            margin-bottom: 1rem;
+        }
+
+    ::placeholder {
+        color: black;
+        opacity: 1; /* Garante que a cor será aplicada totalmente */
+    }
+</style>
+</head>
+<body>
+    <section class="container form-container">
+        <form method="POST">
+            {% csrf_token %}
+            {% if error_message %}
+                <div class="error-message">{{ error_message }}</div>
+            {% endif %}
+            <div class="select">
+                <select name="tipomanu" id="tipomanu" required>
+                    <option selected disabled>Tipo De Manutenção</option>
+                    <option value="1">Preventiva</option>
+                    <option value="2">Preditiva</option>
+                </select>
+            </div>
+            <input type="text" name="codidentmaq" id="codidentmaq" placeholder="Digite o ID da Máquina" required>
+            <div class="select">
+                <select name="criticidade" id="criticidade" required>
+                    <option selected disabled>Criticidade da Máquina</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <input type="date" class="calendar-button" name="datamanu" required />
+            <input type="text" class="periodo" name="descmanu" placeholder="Descrição da Manutenção" required />
+            <input type="text" id="numidentdoc" name="numidentdoc" placeholder="ID Docente" required>
+            <button type="submit" id="btn">Salvar</button>
+        </form>
+    </section>
+
+    <script>
+        document.getElementById('codidentmaq').addEventListener('blur', function() {
+            var id = this.value;
+            var errorMessageDiv = document.getElementById('error-message');
+
+            // Simula a verificação se o ID existe (você pode chamar uma API ou usar uma lista de IDs válidos)
+            fetch(`/api/maquina/${id}/exists/`)  // Supondo que você tenha uma endpoint para verificar o ID
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("ID não encontrado");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data.exists) {
+                        errorMessageDiv.textContent = "ID da máquina não encontrado.";
+                        errorMessageDiv.style.display = 'block';
+                    } else {
+                        errorMessageDiv.style.display = 'none'; // Esconde mensagem de erro se o ID for válido
+                    }
+                })
+                .catch(error => {
+                    errorMessageDiv.textContent = "ID da máquina não encontrado.";
+                    errorMessageDiv.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+{% endblock %}

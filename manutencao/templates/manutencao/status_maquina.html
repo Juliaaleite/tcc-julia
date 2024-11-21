@@ -1,0 +1,138 @@
+{% extends 'manutencao/base.html' %}
+
+{% block content %}
+    {% load static %}
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background-image: url('../../static/images/TelaFundoStatus.png');
+        background-size: cover; /* Para cobrir toda a tela */
+        background-position: center; /* Para centralizar a imagem */
+        background-repeat: no-repeat; /* Para evitar repetição da imagem */
+          background-color: gray;
+      }
+
+      h1 {
+        font-size: 48px;
+          color: white;
+      }
+
+      h2 {
+        font-size: 36px;
+      }
+
+      h3 {
+        font-size: 32px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: rgba(182, 173, 173, 0.8); /* Cor com opacidade */
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #BA1818;
+        color: #fff;
+      }
+
+      td {
+        background-color: rgba(172, 170, 170, 0.83);
+          opacity: 85%;
+        color: #000;
+      }
+
+      .ativo {
+        color: green;
+      }
+
+      .inativo {
+        color: red;
+      }
+
+      button {
+        background-color: #BA1818;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #9a1915;
+      }
+
+      form {
+        margin-bottom: 10px;
+      }
+
+      .status-maquina {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+<br><br><br><br><br><br><br><br><br><br>
+<h1>Status das Máquinas</h1>
+
+<table >
+  <thead>
+    <tr>
+      <th>Código de Identificação</th>
+      <th>Nome da Máquina</th>
+      <th>Status</th>
+      <th>Imagem</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for maquina in maquinas %}
+    <tr>
+      <td>{{ maquina.codidentmaq }}</td>
+      <td>{{ maquina.nomemaq }}</td>
+      <td>
+        {% if maquina.status_codidentmaq.all %}
+          <span>{{ maquina.status_codidentmaq.first.status|yesno:"Ativo,Inativo" }}</span>
+        {% else %}
+          <span>Inativo</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if maquina.image_file %}
+          <img src="{{ maquina.image_file.url }}" alt="Imagem da Máquina" width="100">
+        {% else %}
+          <p>Imagem não disponível.</p>
+        {% endif %}
+      </td>
+      <td>
+        <form method="POST" action="{% url 'status_maquina' %}">
+          {% csrf_token %}
+          <input type="hidden" name="codidentmaq" value="{{ maquina.codidentmaq }}">
+          <button type="submit">
+            {% if maquina.status_codidentmaq.all %}
+              {% if maquina.status_codidentmaq.first.status %}
+                Alterar para Inativo
+              {% else %}
+                Alterar para Ativo
+              {% endif %}
+            {% else %}
+              Criar Status
+            {% endif %}
+          </button>
+        </form>
+
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+

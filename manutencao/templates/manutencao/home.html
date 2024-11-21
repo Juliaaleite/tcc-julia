@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Trade.Agile - Home</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    {% load static %}
+    <link rel='stylesheet' type='text/css' href="{% static 'css/home.css' %}">
+
+</head>
+<body>
+    <img alt="teste1" src="{% static 'images/logoprincipal.png' %}" class="img-responsive">
+    <div class="btn">
+        <a href="{% url 'entrarDOC' %}" class="button">Funcionário</a>
+        <a href="{% url 'entrarADM' %}" class="button">Administrador</a>
+    </div>
+</body>
+</html>

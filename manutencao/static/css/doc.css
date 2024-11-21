@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../img/TelaDeFundo (2).png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    width: 100%;
+    max-width: 90%;
+    margin-left: 5%;
+    display: flex;
+    margin-top: 10vh;
+}
+
+.left-side {
+    width: 90%;
+    padding: 2vh;
+}
+
+.right-side {
+    width: 90%;
+    padding: 5vh;
+}
+
+.calender {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 1vh;
+    box-shadow: 0 0 0.5vh rgba(0,0,0,0.1);
+    padding: 2vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh;
+}
+
+.monthYear {
+    text-align: center;
+    font-weight: 600;
+    width: 30%;
+}
+
+.header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    width: 4vh;
+    height: 4vh;
+    box-shadow: 0 0 0.2vh rgba(0,0,0,0.2);
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin-top: 2vh;
+}
+
+.day {
+    text-align: center;
+    padding: 2vh;
+    color: #999FA6;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 2vh;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2vh;
+    margin: auto;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 5vh;
+    height: 5vh;
+    transition: 0.2s;
+}
+
+.date:hover,
+.date.active {
+    background: #BA1818;
+    color: white;
+}
+
+.date.inactive {
+    color:#d2d2d2;
+}
+
+.date.inactive:hover {
+    color: white;
+}
+
+#btn1, #btn2, #btn3 {
+    background-color: #BA1818;
+    border-radius: 100px;
+    padding: 3vh 10%;
+    margin-left: 25%;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2vh;
+    margin-bottom: 5vh;
+}
