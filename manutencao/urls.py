@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('landingpage/', views.landingpage, name='landingpage'),
+    path('', views.login_view, name='entrarDOC'),
     path('cadastro_manutencao/', views.cadastro_manutencao, name='cadastro_manutencao'),
     path('status_maquina/', views.status_maquina, name='status_maquina'),
     path('entrarDOC/', views.login_view, name='entrarDOC'),
@@ -15,12 +15,11 @@ urlpatterns = [
     path('cadastro_maquina/', views.cadastrar_maquina, name='cadastro_maquina'),
     path('manual_maquina/', views.manual_maquinas, name='manual_maquina'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('calendarioadm/', views.calendarioadm, name='calendarioadm'),
-    path('calendariodoc/', views.calendariodoc, name='calendariodoc'),
-    path('', views.login_view, name='entrarDOC'),
-    path('calendarioadm/', views.calendarioadm, name='calendarioadm'),
-    path('calendariodoc/', views.calendariodoc, name='calendariodoc'),
 
+    path('manual_maquinaadm/', views.manual_maquinasadm, name='manual_maquinaadm'),
+    path('calendarioadm/', views.calendarioadm, name='calendarioadm'),
+    path('calendariodoc/', views.calendariodoc, name='calendariodoc'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

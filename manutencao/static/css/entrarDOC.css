@@ -43,7 +43,9 @@ body {
     padding: 3vh 15vh;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra nos inputs */;
 }
-
+#cadastrar {
+    font-family: sans-serif;
+}
 #btn{
     background-color: #BA1818;
     border-radius: 5vh;

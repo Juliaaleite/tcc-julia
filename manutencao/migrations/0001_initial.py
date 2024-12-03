@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('tipomanu', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='calendarios_tipomanu', to='manutencao.manutencao')),
             ],
             options={
-                'db_table': 'Calendario',
+                'db_table': 'calendario',
             },
         ),
         migrations.CreateModel(

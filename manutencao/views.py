@@ -36,23 +36,6 @@ def base(request):
 def base2(request):
     return render(request, 'manutencao/base2.html')
 
-def manutencao(request):
-    class Meta:
-        model = Manutencao
-        fields = ['tipomanu', 'codidentmaq', 'datamanu', 'responmanu']
-
-        widgets = {
-            'tipomanu': forms.Select(choices=[
-                (1, 'Preventiva'),
-                (2, 'Preditiva'),
-            ]),
-            'codidentmaq': forms.Select(attrs={'class': 'form-control'}),
-            'datamanu': forms.DateInput(attrs={'type': 'date'}),
-            'responmanu': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
-    return render(request, 'manutencao/cadastro_manutencao.html')
-
 
 
 from django.urls import reverse
@@ -141,6 +124,10 @@ def manual_maquinas(request):
     maquinas = Maquina.objects.all()  # Obtém todas as máquinas cadastradas
     return render(request, 'manutencao/manual_maquina.html', {'maquinas': maquinas})
 
+def manual_maquinasadm(request):
+    maquinas = Maquina.objects.all()  # Obtém todas as máquinas cadastradas
+    return render(request, 'manutencao/manual_maquinaadm.html', {'maquinas': maquinas})
+
 from .models import User
 
 # Configuração do logger
@@ -227,7 +214,7 @@ def cadastrar_maquina(request):
             print(f"Erro ao salvar a máquina: {e}")
             return HttpResponse("Erro ao salvar a máquina.")
 
-    return render(request, 'manutencao/cadastro_maquina.html')  # Altere para o seu template
+    return render(request, 'manutencao/cadastro_maquina.html')
 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -268,7 +255,6 @@ def cadastro_manutencao(request):
     if request.method == 'POST':
         # Recebe os dados do formulário
         codidentmaq = request.POST.get('codidentmaq')
-        numidentdoc = request.POST.get('numidentdoc')  # ID do docente
         tipomanu = request.POST.get('tipomanu')  # Tipo de manutenção
         datamanu = request.POST.get('datamanu')  # Data da manutenção
         descmanu = request.POST.get('descmanu')  # Descrição da manutenção
@@ -279,23 +265,16 @@ def cadastro_manutencao(request):
             error_message = "ID da máquina não encontrado."
             return render(request, 'manutencao/cadastro_manutencao.html', {'error_message': error_message})
 
-        # Verifica se o docente com o código de identificação existe
-        docente = Docente.objects.filter(numidentdoc=numidentdoc).first()
-        if not docente:
-            error_message = "ID do docente não encontrado."
-            return render(request, 'manutencao/cadastro_manutencao.html', {'error_message': error_message})
-
         # Tenta criar a nova manutenção
         try:
             nova_manutencao = Manutencao(
                 codidentmaq=maquina,
-                numidentdoc=docente,
                 descmanu=descmanu,
                 tipomanu=int(tipomanu),  # Certifique-se de que isso é um inteiro
                 datamanu=datamanu,
             )
             nova_manutencao.save()  # Salva o objeto
-            return redirect('calendarioadm')  # Redireciona após o sucesso
+            return redirect('calendariodoc')  # Redireciona após o sucesso
         except Exception as e:
             error_message = f"Erro ao salvar a manutenção: {str(e)}"
             return render(request, 'manutencao/cadastro_manutencao.html', {'error_message': error_message})
@@ -303,6 +282,19 @@ def cadastro_manutencao(request):
     # Se o método não for POST, apenas renderiza a página de cadastro
     return render(request, 'manutencao/cadastro_manutencao.html')
 
+
+from django.shortcuts import render, redirect
+from .models import Manutencao
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def manutencao_list(request):
+    # Recupera todas as manutenções
+    manutencao_lista = Manutencao.objects.all()
+
+    # Passa as manutenções para o template
+    return render(request, 'manutencao/manutencao_list.html', {'manutencao_lista': manutencao_lista})
 
 
 def relatorios(request):

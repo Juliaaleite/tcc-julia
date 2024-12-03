@@ -84,3 +84,7 @@ body {
 #btn:hover{
   background-color:#680505;
 }
+#is_admin{
+    color: #b6adad;
+    border-radius: 5vh;
+}

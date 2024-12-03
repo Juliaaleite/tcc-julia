@@ -58,22 +58,48 @@ class Maquina(models.Model):
     nomemaq = models.CharField(max_length=150)
     catmaq = models.CharField(max_length=150)
     codidentmaq = models.IntegerField(primary_key=True)
-    manual_file = models.FileField(upload_to='media/manuais/', default='manuais/manual_default.pdf')  # Valor padrão
+    manual_file = models.FileField(upload_to='media/manuais/', default='manuais/manual_default.pdf')
     image_file = models.FileField(upload_to='media/images/', default='images/image_default.png')
-
     class Meta:
         db_table = 'maquina'
 
+from django.db import models
+
+# Supondo que o modelo Maquina já esteja definido em algum lugar do seu projeto
+from django.db import models
+
+# Classe Manutencao
 class Manutencao(models.Model):
-    codidentmaq = models.ForeignKey('Maquina', on_delete=models.CASCADE)
-    numidentdoc = models.ForeignKey('Docente', on_delete=models.CASCADE)
-    descmanu = models.CharField(max_length=150)
-    codmanu = models.IntegerField(primary_key=True)
-    tipomanu = models.IntegerField()
-    datamanu = models.DateField()
+    codidentmaq = models.ForeignKey(Maquina, on_delete=models.CASCADE)  # Relacionamento com Maquina
+    descmanu = models.CharField(max_length=150)  # Descrição da manutenção
+    codmanu = models.IntegerField(primary_key=True)  # Código único da manutenção
+    tipomanu = models.CharField(max_length=150)  # Tipo de manutenção
+    datamanu = models.DateField()  # Data da manutenção
 
     class Meta:
-        db_table = 'manutencao'
+        db_table = 'manutencao'  # Nome da tabela no banco de dados
+        verbose_name = 'Manutenção'  # Nome singular para exibição
+        verbose_name_plural = 'Manutenções'  # Nome plural para exibição
+
+    def __str__(self):
+        return f'{self.descmanu} ({self.codmanu})'
+
+
+# Classe Calendario (corrigida a indentação)
+class Calendario(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    codmanu = models.ForeignKey('Manutencao', on_delete=models.CASCADE)
+    datamanu = models.DateTimeField()
+    responmanu = models.CharField(max_length=255)
+    tipomanu = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'calendario'  # Caso você queira manter o nome da tabela especificado
+
+    def __str__(self):
+        return f"{self.responmanu} - {self.datamanu}"
+
+
 
 class StatusMaquina(models.Model):
     codidentmaq = models.ForeignKey(Maquina, on_delete=models.CASCADE, related_name='status_codidentmaq')
@@ -83,13 +109,14 @@ class StatusMaquina(models.Model):
         db_table = 'statusmaquina'
 
 class ManualMaquinas(models.Model):
-    codidentmaq = models.ForeignKey(Maquina, on_delete=models.CASCADE, related_name='manuais')
-    manmaq = models.CharField(max_length=255)
-    codmanual = models.CharField(max_length=255)  # Remova primary_key=True
+    codidentmaq = models.ForeignKey(Maquina, on_delete=models.CASCADE, related_name='manuais')  # Chave estrangeira para Maquina
+    manmaq = models.CharField(max_length=255)  # Descrição ou outro campo relacionado ao manual
+    codmanual = models.CharField(max_length=255)  # Código único do manual
 
     class Meta:
-        db_table = 'ManualMaquinas'
-        unique_together = ('codidentmaq', 'codmanual')  # Garante que o mesmo manual não seja associado à mesma máquina mais de uma vez
+        db_table = 'ManualMaquinas'  # Nome da tabela no banco de dados
+        unique_together = ('codidentmaq', 'codmanual')  # Garantir que a combinação de codidentmaq e codmanual seja única
+ # Garante que o mesmo manual não seja associado à mesma máquina mais de uma vez
 class Relatorios(models.Model):
     codmanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='relatorios_codmanu')
     datamanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='relatorios_datamanu')
@@ -98,15 +125,6 @@ class Relatorios(models.Model):
 
     class Meta:
         db_table = 'relatorios'
-
-class Calendario(models.Model):
-    codmanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='calendarios_codmanu')
-    datamanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='calendarios_datamanu')
-    responmanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='calendarios_responmanu')
-    tipomanu = models.ForeignKey(Manutencao, on_delete=models.CASCADE, related_name='calendarios_tipomanu')
-
-    class Meta:
-        db_table = 'Calendario'
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_admin=False, **extra_fields):
@@ -142,11 +160,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         related_name='manutencao_user_permissions',  # Evitar conflitos
         blank=True
     )
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nome']
-
     objects = UserManager()
-
     def __str__(self):
         return self.email

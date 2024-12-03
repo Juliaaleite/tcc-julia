@@ -1,0 +1,119 @@
+{% extends 'manutencao/base2.html' %}
+{% block content %}
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "images/fundo mais escuro.png" %}');
+            background-size: cover;
+        background-color: #656565;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        }
+
+        h1 {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .lista {
+        background-color: #b6adad;
+        border: 1px solid #ffffff;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 900px;
+        margin-left: auto; /* Margem à esquerda automática para centralização */
+        margin-right: auto;
+    }
+
+    .h3 {
+        margin: 0;
+        color: #6c1313;
+        font-size: 200%;
+    }
+
+    p {
+        margin: 5px 0;
+        color: #ffffff;
+    }
+
+    .image-container {
+        display: flex;
+        flex-wrap: wrap; /* Permite que as imagens quebrem para a linha seguinte, se necessário */
+        gap: 10px; /* Espaço entre as imagens */
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        width: 150px; /* Largura fixa para as imagens */
+    }
+
+    .manual {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 15px;
+        background-color: #be2525;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .manual:hover {
+        background-color: #731414;
+    }
+
+    .h {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 10px 0;
+    }
+    </style>
+</head>
+<body><br><br><Br><Br><Br><br><br><br><br><br>
+    <h1>Lista de Máquinas</h1>
+
+    <!-- Lista todas as máquinas cadastradas -->
+    <ul class="ul">
+        {% for maquina in maquinas %}
+            <li class="lista">
+                <h3 class="h3">{{ maquina.nomemaq }}</h3>
+                <p><strong>Categoria:</strong> {{ maquina.catmaq }}</p>
+                <p><strong>Código de Identificação:</strong> {{ maquina.codidentmaq }}</p>
+
+                <!-- Exibe a imagem da máquina -->
+                {% if maquina.image_file %}
+                    <div>
+                        <h4>Imagem da Máquina</h4>
+                        <img src="{{ maquina.image_file.url }}" alt="Imagem da Máquina" width="300">
+                    </div>
+                {% endif %}
+
+                <!-- Link para download do manual -->
+                {% if maquina.manual_file %}
+                    <div>
+                        <h4>Manual da Máquina</h4>
+                        <a class="manual" href="{{ maquina.manual_file.url }}" download>Download do Manual</a>
+                    </div>
+                {% endif %}
+            </li>
+            <hr class="h">
+        {% empty %}
+            <p>Nenhuma máquina cadastrada.</p>
+        {% endfor %}
+    </ul>
+</body>
+{% endblock %}

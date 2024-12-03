@@ -1,0 +1,58 @@
+body {
+    font-family: sans-serif;
+    background-image: url("../images/fundo2.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+}
+
+.container {
+    display: flex; /* Habilita o uso de Flexbox */
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    max-width: 50%;
+    margin: 10% auto;
+    padding: 8.9%;
+    background-color: #b6adad;
+    border-radius: 10vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 80%;
+    margin-top: 5vh;
+}
+.teste1 {
+    margin-top: -10%;
+    max-height: 20vh; /* Ajuste a altura conforme necessário */
+    height: auto; /* Mantém a proporção */
+}
+
+
+#emaildoc {
+    border-radius: 5vh;        /* Arredondamento em relação à altura da viewport */
+    margin-bottom: 5%;
+    margin-top: 5%;
+    padding: 3vh 15vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra nos inputs */;
+}
+
+#senhadoc {
+    border-radius: 5vh;        /* Arredondamento em relação à altura da viewport */
+    margin-bottom: 5%;
+    margin-top: 5%;
+    padding: 3vh 15vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra nos inputs */;
+}
+
+#btn{
+    background-color: #BA1818;
+    border-radius: 5vh;
+    padding: 1vh 10vh;
+    color: white;
+    margin-left: 12vh;
+    border-color: #BA1818;
+}
+
+#btn:hover{
+  background-color:#680505;
+}
